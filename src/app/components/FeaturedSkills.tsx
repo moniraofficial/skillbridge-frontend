@@ -155,10 +155,177 @@
 // }
 
 
+// 'use client';
+
+// import { useEffect, useState } from 'react';
+// import Link from 'next/link';
+
+// interface SkillType {
+//   _id: string;
+//   title: string;
+//   desc: string;
+//   badge: string;
+//   badgeColor: string;
+//   image: string;
+//   mentorName: string;
+//   mentorImage: string;
+//   rating: string;
+//   reviews: string;
+//   price: string;
+//   duration: string;
+//   lessons: string;
+// }
+
+// export default function FeaturedSkills() {
+//   const [skills, setSkills] = useState<SkillType[]>([]);
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState<string | null>(null);
+
+//   useEffect(() => {
+//     const fetchSkills = async () => {
+//       try {
+//         const res = await fetch('http://localhost:5000/api/skills');
+        
+//         if (!res.ok) {
+//           throw new Error(`Failed to fetch from backend status: ${res.status}`);
+//         }
+//         const data = await res.json();
+        
+//         if (Array.isArray(data)) {
+//           setSkills(data);
+//         } else {
+//           setSkills([]);
+//           setError("Data received from backend is not an array");
+//         }
+//       } catch (err: any) {
+//         console.error("Failed to load skills:", err);
+//         setError(err.message || "Something went wrong connecting to backend server");
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+//     fetchSkills();
+//   }, []);
+
+//   // ১. লোডিং স্টেট
+//   if (loading) {
+//     return (
+//       <div className="text-center py-20 font-semibold text-gray-500 animate-pulse">
+//         Loading Featured Skills from External Backend...
+//       </div>
+//     );
+//   }
+
+//   // ২. কানেকশন এরর থাকলে এই লাল বক্স দেখাবে
+//   if (error) {
+//     return (
+//       <div className="text-center py-16 bg-red-50 rounded-2xl border border-red-100 max-w-7xl mx-auto my-10 p-6">
+//         <p className="text-red-600 font-semibold">⚠️ Backend Server Connection Issue!</p>
+//         <p className="text-xs text-gray-500 mt-2">
+//           Please make sure your separate backend project is running on <code className="bg-red-100 px-1 py-0.5 rounded text-red-700">http://localhost:5000</code>.
+//         </p>
+//       </div>
+//     );
+//   }
+
+//   return (
+//     <section className="bg-white py-16">
+//       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        
+//         <div className="flex justify-between items-end mb-10">
+//           <div>
+//             <h2 className="text-3xl font-extrabold text-slate-950 tracking-tight">
+//               Featured Skills
+//             </h2>
+//             <p className="mt-2 text-sm text-gray-500">
+//               Hand-picked skills directly from external MongoDB via Express Backend
+//             </p>
+//           </div>
+//           <Link href="/courses" className="text-sm font-semibold text-blue-600 hover:text-blue-700 transition">
+//             View all
+//           </Link>
+//         </div>
+
+//         {/* ৩. ডাটাবেজ সচল কিন্তু কোনো ডাটা না থাকলে (Empty State) */}
+//         {skills.length === 0 ? (
+//           <div className="text-center py-12 border border-dashed border-gray-200 rounded-2xl">
+//             <p className="text-gray-500 font-medium">No skills found in the database! 📭</p>
+//             <p className="text-xs text-gray-400 mt-1">Please insert some documents into your MongoDB 'skills' collection.</p>
+//           </div>
+//         ) : (
+//           /* ৪. 🌟 [ফিক্স] .slice(0, 4) ব্যবহার করে এখানে ডাটাবেজের ১৬টি ডাটার মধ্য থেকে শুধুমাত্র প্রথম ৪টি ডাটা রেন্ডার করা হচ্ছে */
+//           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+//             {skills.slice(0, 4).map((skill) => (
+//               <div 
+//                 key={skill._id} 
+//                 className="bg-white rounded-2xl border border-gray-150 shadow-sm overflow-hidden flex flex-col justify-between hover:shadow-md transition duration-300"
+//               >
+//                 <div>
+//                   <div className="relative h-48 w-full bg-gray-100">
+//                     <img 
+//                       src={skill.image} 
+//                       alt={skill.title} 
+//                       className="w-full h-full object-cover"
+//                     />
+//                     <span className={`absolute top-3 left-3 px-2.5 py-1 rounded-lg text-xs font-bold ${skill.badgeColor} shadow-sm`}>
+//                       {skill.badge}
+//                     </span>
+//                   </div>
+
+//                   <div className="p-5 space-y-3">
+//                     <h3 className="text-lg font-bold text-gray-950 leading-snug line-clamp-1">
+//                       {skill.title}
+//                     </h3>
+//                     <p className="text-sm text-gray-500 line-clamp-2">
+//                       {skill.desc}
+//                     </p>
+//                   </div>
+//                 </div>
+
+//                 <div className="px-5 pb-5 mt-auto">
+//                   <div className="flex items-center justify-between border-b border-gray-100 pb-4 mb-4">
+//                     <div className="flex items-center gap-2">
+//                       <img 
+//                         src={skill.mentorImage} 
+//                         alt={skill.mentorName} 
+//                         className="w-7 h-7 rounded-full object-cover"
+//                       />
+//                       <span className="text-xs font-semibold text-gray-700">{skill.mentorName}</span>
+//                     </div>
+//                     <span className="text-xl font-black text-gray-950">{skill.price}</span>
+//                   </div>
+
+//                   <div className="flex justify-between items-center text-xs text-gray-500 font-medium">
+//                     <div className="flex items-center gap-1">
+//                       <span className="text-amber-500 text-sm">★</span>
+//                       <span className="text-gray-800 font-bold">{skill.rating}</span>
+//                       <span>({skill.reviews})</span>
+//                     </div>
+//                     <div className="flex items-center gap-1.5">
+//                       <span>{skill.duration}</span>
+//                       <span className="text-gray-300">•</span>
+//                       <span>{skill.lessons}</span>
+//                     </div>
+//                   </div>
+//                 </div>
+
+//               </div>
+//             ))}
+//           </div>
+//         )}
+
+//       </div>
+//     </section>
+//   );
+// }
+
+
+
 'use client';
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { ArrowRight } from 'lucide-react'; // আইকনের জন্য ইম্পোর্ট করা হলো
 
 interface SkillType {
   _id: string;
@@ -253,27 +420,27 @@ export default function FeaturedSkills() {
             <p className="text-xs text-gray-400 mt-1">Please insert some documents into your MongoDB 'skills' collection.</p>
           </div>
         ) : (
-          /* ৪. 🌟 [ফিক্স] .slice(0, 4) ব্যবহার করে এখানে ডাটাবেজের ১৬টি ডাটার মধ্য থেকে শুধুমাত্র প্রথম ৪টি ডাটা রেন্ডার করা হচ্ছে */
+          /* ৪. প্রথম ৪টি ডাটা রেন্ডার */
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {skills.slice(0, 4).map((skill) => (
               <div 
                 key={skill._id} 
-                className="bg-white rounded-2xl border border-gray-150 shadow-sm overflow-hidden flex flex-col justify-between hover:shadow-md transition duration-300"
+                className="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden flex flex-col justify-between hover:shadow-md transition duration-300 group"
               >
                 <div>
-                  <div className="relative h-48 w-full bg-gray-100">
+                  <div className="relative h-48 w-full bg-gray-100 overflow-hidden">
                     <img 
                       src={skill.image} 
                       alt={skill.title} 
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-cover group-hover:scale-105 transition duration-500"
                     />
-                    <span className={`absolute top-3 left-3 px-2.5 py-1 rounded-lg text-xs font-bold ${skill.badgeColor} shadow-sm`}>
+                    <span className={`absolute top-3 left-3 px-2.5 py-1 rounded-lg text-xs font-bold ${skill.badgeColor || 'bg-blue-100 text-blue-700'} shadow-sm`}>
                       {skill.badge}
                     </span>
                   </div>
 
                   <div className="p-5 space-y-3">
-                    <h3 className="text-lg font-bold text-gray-950 leading-snug line-clamp-1">
+                    <h3 className="text-lg font-bold text-gray-950 leading-snug line-clamp-1 group-hover:text-blue-600 transition-colors">
                       {skill.title}
                     </h3>
                     <p className="text-sm text-gray-500 line-clamp-2">
@@ -282,7 +449,8 @@ export default function FeaturedSkills() {
                   </div>
                 </div>
 
-                <div className="px-5 pb-5 mt-auto">
+                <div className="px-5 pb-5 mt-auto flex flex-col">
+                  {/* মেন্টর এবং প্রাইস */}
                   <div className="flex items-center justify-between border-b border-gray-100 pb-4 mb-4">
                     <div className="flex items-center gap-2">
                       <img 
@@ -295,7 +463,8 @@ export default function FeaturedSkills() {
                     <span className="text-xl font-black text-gray-950">{skill.price}</span>
                   </div>
 
-                  <div className="flex justify-between items-center text-xs text-gray-500 font-medium">
+                  {/* রিভিউ এবং ডিউরেশন */}
+                  <div className="flex justify-between items-center text-xs text-gray-500 font-medium mb-4">
                     <div className="flex items-center gap-1">
                       <span className="text-amber-500 text-sm">★</span>
                       <span className="text-gray-800 font-bold">{skill.rating}</span>
@@ -307,8 +476,17 @@ export default function FeaturedSkills() {
                       <span>{skill.lessons}</span>
                     </div>
                   </div>
-                </div>
 
+                  {/* 🌟 [নতুন সংযোজন] ভিউ ডিটেইলস বাটন যা ডাইনামিক রাউটে নিয়ে যাবে */}
+                  <Link 
+                    href={`/courses/${skill._id}`}
+                    className="w-full py-2.5 bg-slate-50 hover:bg-blue-600 text-slate-700 hover:text-white font-semibold text-sm rounded-xl transition flex items-center justify-center gap-2 group/btn"
+                  >
+                    <span>View Details</span>
+                    <ArrowRight className="w-4 h-4 transform group-hover/btn:translate-x-1 transition-transform" />
+                  </Link>
+
+                </div>
               </div>
             ))}
           </div>
@@ -318,10 +496,6 @@ export default function FeaturedSkills() {
     </section>
   );
 }
-
-
-
-
 
 
 
