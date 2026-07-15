@@ -2,13 +2,13 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 
 // ১. যে পেজগুলো লগইন ছাড়া একদম ভিজিট করা যাবে না (Protected Routes)
-const protectedRoutes = [
-  '/manage', 
+const protectedRoutes: string[] = [
+  // '/manage', 
   // '/item/add'
 ];
 
 // ২. যে পেজগুলো লগইন করা থাকলে আর শো করবে না (Auth Routes)
-const authRoutes = [
+const authRoutes: string[] = [
   '/login', 
   '/register'
 ];
