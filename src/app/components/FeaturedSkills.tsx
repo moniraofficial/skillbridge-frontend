@@ -417,7 +417,7 @@ export default function FeaturedSkills() {
         {skills.length === 0 ? (
           <div className="text-center py-12 border border-dashed border-gray-200 rounded-2xl">
             <p className="text-gray-500 font-medium">No skills found in the database! 📭</p>
-            <p className="text-xs text-gray-400 mt-1">Please insert some documents into your MongoDB 'skills' collection.</p>
+            <p className="text-xs text-gray-400 mt-1">Please insert some documents into your MongoDB `skills` collection.</p>
           </div>
         ) : (
           /* ৪. প্রথম ৪টি ডাটা রেন্ডার */
