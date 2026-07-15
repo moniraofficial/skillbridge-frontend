@@ -191,7 +191,7 @@
 //   useEffect(() => {
 //     async function fetchCourses() {
 //       try {
-//         const response = await fetch('http://localhost:5000/api/skills');
+//         const response = await fetch('process.env.NEXT_PUBLIC_API_URL/api/skills');
         
 //         if (!response.ok) {
 //           throw new Error(`HTTP error! status: ${response.status}`);
@@ -384,7 +384,7 @@ export default function CoursesPage() {
   useEffect(() => {
     async function fetchCourses() {
       try {
-        const response = await fetch('http://localhost:5000/api/skills');
+        const response = await fetch('process.env.NEXT_PUBLIC_API_URL/api/skills');
         
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);

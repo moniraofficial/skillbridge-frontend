@@ -39,7 +39,7 @@ export default function AddItemPage() {
 
     try {
       // ব্যাকএন্ড এপিআই-তে ডাটা পোস্ট করা হচ্ছে
-      const response = await fetch('http://localhost:5000/api/skills', {
+      const response = await fetch('process.env.NEXT_PUBLIC_API_URL/api/skills', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

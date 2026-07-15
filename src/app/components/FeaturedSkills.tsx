@@ -28,7 +28,7 @@
 //     const fetchSkills = async () => {
 //       try {
 //         // আলাদা ব্যাকএন্ড প্রজেক্টের সঠিক ইউআরএল এখানে দেওয়া হয়েছে
-//         const res = await fetch('http://localhost:5000/api/skills');
+//         const res = await fetch('process.env.NEXT_PUBLIC_API_URL/api/skills');
         
 //         if (!res.ok) {
 //           throw new Error(`Failed to fetch from backend status: ${res.status}`);
@@ -66,7 +66,7 @@
 //       <div className="text-center py-16 bg-red-50 rounded-2xl border border-red-100 max-w-7xl mx-auto my-10 p-6">
 //         <p className="text-red-600 font-semibold">⚠️ Backend Server or Database Connection Issue!</p>
 //         <p className="text-xs text-gray-500 mt-2">
-//           Please make sure your separate backend project is running on <code className="bg-red-100 px-1 py-0.5 rounded text-red-700">http://localhost:5000</code> and CORS is enabled.
+//           Please make sure your separate backend project is running on <code className="bg-red-100 px-1 py-0.5 rounded text-red-700">process.env.NEXT_PUBLIC_API_URL</code> and CORS is enabled.
 //         </p>
 //       </div>
 //     );
@@ -184,7 +184,7 @@
 //   useEffect(() => {
 //     const fetchSkills = async () => {
 //       try {
-//         const res = await fetch('http://localhost:5000/api/skills');
+//         const res = await fetch('process.env.NEXT_PUBLIC_API_URL/api/skills');
         
 //         if (!res.ok) {
 //           throw new Error(`Failed to fetch from backend status: ${res.status}`);
@@ -222,7 +222,7 @@
 //       <div className="text-center py-16 bg-red-50 rounded-2xl border border-red-100 max-w-7xl mx-auto my-10 p-6">
 //         <p className="text-red-600 font-semibold">⚠️ Backend Server Connection Issue!</p>
 //         <p className="text-xs text-gray-500 mt-2">
-//           Please make sure your separate backend project is running on <code className="bg-red-100 px-1 py-0.5 rounded text-red-700">http://localhost:5000</code>.
+//           Please make sure your separate backend project is running on <code className="bg-red-100 px-1 py-0.5 rounded text-red-700">process.env.NEXT_PUBLIC_API_URL</code>.
 //         </p>
 //       </div>
 //     );
@@ -351,7 +351,7 @@ export default function FeaturedSkills() {
   useEffect(() => {
     const fetchSkills = async () => {
       try {
-        const res = await fetch('http://localhost:5000/api/skills');
+        const res = await fetch('process.env.NEXT_PUBLIC_API_URL/api/skills');
         
         if (!res.ok) {
           throw new Error(`Failed to fetch from backend status: ${res.status}`);
@@ -389,7 +389,7 @@ export default function FeaturedSkills() {
       <div className="text-center py-16 bg-red-50 rounded-2xl border border-red-100 max-w-7xl mx-auto my-10 p-6">
         <p className="text-red-600 font-semibold">⚠️ Backend Server Connection Issue!</p>
         <p className="text-xs text-gray-500 mt-2">
-          Please make sure your separate backend project is running on <code className="bg-red-100 px-1 py-0.5 rounded text-red-700">http://localhost:5000</code>.
+          Please make sure your separate backend project is running on <code className="bg-red-100 px-1 py-0.5 rounded text-red-700">process.env.NEXT_PUBLIC_API_URL</code>.
         </p>
       </div>
     );
@@ -575,7 +575,7 @@ export default function FeaturedSkills() {
 //   useEffect(() => {
 //     const fetchSkills = async () => {
 //       try {
-//         const res = await fetch('http://localhost:5000/api/skills');
+//         const res = await fetch('process.env.NEXT_PUBLIC_API_URL/api/skills');
 //         if (res.ok) {
 //           const data = await res.json();
 //           if (Array.isArray(data) && data.length > 0) {

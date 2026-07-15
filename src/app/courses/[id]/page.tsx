@@ -47,7 +47,7 @@ export default function CourseDetailsPage() {
   useEffect(() => {
     async function fetchCourseData() {
       try {
-        const response = await fetch('http://localhost:5000/api/skills');
+        const response = await fetch('process.env.NEXT_PUBLIC_API_URL/api/skills');
         if (!response.ok) throw new Error('Failed to fetch data');
         
         const data = await response.json();
