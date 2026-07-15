@@ -852,6 +852,132 @@
 //   );
 // }
 
+// 'use client';
+
+// import { useState, useEffect } from 'react';
+// import Link from 'next/link';
+// import { useRouter, usePathname } from 'next/navigation';
+// import { authClient } from '@/lib/auth-client';
+// import { toast } from 'react-hot-toast';
+
+// export default function Navbar() {
+//   const router = useRouter();
+//   const pathname = usePathname();
+//   const [isOpen, setIsOpen] = useState(false);
+//   const [isMounted, setIsMounted] = useState(false);
+
+//   const { data: session } = authClient.useSession();
+
+//   useEffect(() => {
+//     setIsMounted(true);
+//   }, []);
+
+//   const handleSignOut = async () => {
+//     try {
+//       await authClient.signOut();
+//       toast.success('Logged out successfully!');
+//       router.push('/');
+//       router.refresh();
+//     } catch (error: any) {
+//       toast.error('Logout failed!');
+//     }
+//   };
+
+//   const isActive = (path: string) => pathname === path;
+
+//   if (!isMounted) {
+//     return (
+//       <nav className="bg-white border-b border-gray-100 sticky top-0 z-50">
+//         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+//           <div className="flex justify-between h-16 items-center">
+//             <Link href="/" className="text-xl font-bold text-gray-900">SkillBridge<span className="text-blue-600">.</span></Link>
+//           </div>
+//         </div>
+//       </nav>
+//     );
+//   }
+
+//   const getDesktopLinkStyle = (path: string) => {
+//     const baseStyle = "text-sm font-medium transition-colors relative py-5";
+//     const activeStyle = "text-blue-600 font-semibold";
+//     const inactiveStyle = "text-gray-600 hover:text-blue-600";
+//     return `${baseStyle} ${isActive(path) ? activeStyle : inactiveStyle}`;
+//   };
+
+//   const getMobileLinkStyle = (path: string) => {
+//     const baseStyle = "block py-2.5 px-3 rounded-lg text-sm font-medium transition-colors";
+//     const activeStyle = "bg-blue-50 text-blue-600 font-semibold";
+//     const inactiveStyle = "text-gray-600 hover:bg-gray-50 hover:text-blue-600";
+//     return `${baseStyle} ${isActive(path) ? activeStyle : inactiveStyle}`;
+//   };
+
+//   return (
+//     <nav className="bg-white border-b border-gray-100 sticky top-0 z-50">
+//       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+//         <div className="flex justify-between h-16 items-center">
+          
+//           <div className="flex-shrink-0 flex items-center">
+//             <Link href="/" className="text-xl font-bold text-gray-900">
+//               SkillBridge<span className="text-blue-600">.</span>
+//             </Link>
+//           </div>
+
+//           <div className="hidden md:flex space-x-8 items-center h-full">
+//             <Link href="/" className={getDesktopLinkStyle('/')}>Home{isActive('/') && <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-blue-600 rounded-full" />}</Link>
+//             <Link href="/courses" className={getDesktopLinkStyle('/courses')}>Courses{isActive('/courses') && <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-blue-600 rounded-full" />}</Link>
+            
+//             {/* ড্যাশবোর্ড এবং অন্যান্য লিংক */}
+//             {session && (
+//               <>
+//                 <Link href="/dashboard" className={getDesktopLinkStyle('/dashboard')}>Dashboard{isActive('/dashboard') && <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-blue-600 rounded-full" />}</Link>
+//                 <Link href="/item/add" className={getDesktopLinkStyle('/item/add')}>Add New Skill{isActive('/item/add') && <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-blue-600 rounded-full" />}</Link>
+//                 <Link href="/manage" className={getDesktopLinkStyle('/manage')}>Manage Items{isActive('/manage') && <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-blue-600 rounded-full" />}</Link>
+//               </>
+//             )}
+            
+//             <Link href="/about" className={getDesktopLinkStyle('/about')}>About Us{isActive('/about') && <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-blue-600 rounded-full" />}</Link>
+//             <Link href="/contact" className={getDesktopLinkStyle('/contact')}>Contact{isActive('/contact') && <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-blue-600 rounded-full" />}</Link>
+//           </div>
+
+//           <div className="hidden md:flex items-center space-x-4">
+//             {session ? (
+//               <div className="flex items-center space-x-4">
+//                 <span className="text-sm font-medium text-gray-700 bg-gray-50 px-3 py-1.5 rounded-md border border-gray-100">Hi, {session.user.name}</span>
+//                 <button onClick={handleSignOut} className="text-sm font-medium text-red-600 hover:text-red-700 transition">Sign Out</button>
+//               </div>
+//             ) : (
+//               <>
+//                 <Link href="/login" className={getDesktopLinkStyle('/login')}>Sign In</Link>
+//                 <Link href="/register" className="text-sm font-medium bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition">Register</Link>
+//               </>
+//             )}
+//           </div>
+
+//           <button onClick={() => setIsOpen(!isOpen)} className="md:hidden text-gray-600">
+//             {isOpen ? "✕" : "☰"}
+//           </button>
+//         </div>
+//       </div>
+
+//       {isOpen && (
+//         <div className="md:hidden bg-white border-b border-gray-100 px-4 pt-2 pb-4 space-y-1 shadow-lg">
+//           <Link href="/" className={getMobileLinkStyle('/')}>Home</Link>
+//           <Link href="/courses" className={getMobileLinkStyle('/courses')}>Courses</Link>
+//           {session && (
+//             <>
+//               <Link href="/dashboard" className={getMobileLinkStyle('/dashboard')}>Dashboard</Link>
+//               <Link href="/item/add" className={getMobileLinkStyle('/item/add')}>Add New Skill</Link>
+//               <Link href="/manage" className={getMobileLinkStyle('/manage')}>Manage Items</Link>
+//             </>
+//           )}
+//           <Link href="/about" className={getMobileLinkStyle('/about')}>About Us</Link>
+//           <Link href="/contact" className={getMobileLinkStyle('/contact')}>Contact</Link>
+//         </div>
+//       )}
+//     </nav>
+//   );
+// }
+
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -864,13 +990,9 @@ export default function Navbar() {
   const router = useRouter();
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
-  const [isMounted, setIsMounted] = useState(false);
-
-  const { data: session } = authClient.useSession();
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
+  
+  // সেশন ডাটা এবং লোডিং স্ট্যাটাস হ্যান্ডেল করা
+  const { data: session, isPending } = authClient.useSession();
 
   const handleSignOut = async () => {
     try {
@@ -884,18 +1006,6 @@ export default function Navbar() {
   };
 
   const isActive = (path: string) => pathname === path;
-
-  if (!isMounted) {
-    return (
-      <nav className="bg-white border-b border-gray-100 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16 items-center">
-            <Link href="/" className="text-xl font-bold text-gray-900">SkillBridge<span className="text-blue-600">.</span></Link>
-          </div>
-        </div>
-      </nav>
-    );
-  }
 
   const getDesktopLinkStyle = (path: string) => {
     const baseStyle = "text-sm font-medium transition-colors relative py-5";
@@ -926,8 +1036,7 @@ export default function Navbar() {
             <Link href="/" className={getDesktopLinkStyle('/')}>Home{isActive('/') && <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-blue-600 rounded-full" />}</Link>
             <Link href="/courses" className={getDesktopLinkStyle('/courses')}>Courses{isActive('/courses') && <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-blue-600 rounded-full" />}</Link>
             
-            {/* ড্যাশবোর্ড এবং অন্যান্য লিংক */}
-            {session && (
+            {!isPending && session && (
               <>
                 <Link href="/dashboard" className={getDesktopLinkStyle('/dashboard')}>Dashboard{isActive('/dashboard') && <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-blue-600 rounded-full" />}</Link>
                 <Link href="/item/add" className={getDesktopLinkStyle('/item/add')}>Add New Skill{isActive('/item/add') && <span className="absolute bottom-0 left-0 right-0 h-[2px] bg-blue-600 rounded-full" />}</Link>
@@ -940,7 +1049,9 @@ export default function Navbar() {
           </div>
 
           <div className="hidden md:flex items-center space-x-4">
-            {session ? (
+            {isPending ? (
+              <span className="text-sm text-gray-400">Loading...</span>
+            ) : session ? (
               <div className="flex items-center space-x-4">
                 <span className="text-sm font-medium text-gray-700 bg-gray-50 px-3 py-1.5 rounded-md border border-gray-100">Hi, {session.user.name}</span>
                 <button onClick={handleSignOut} className="text-sm font-medium text-red-600 hover:text-red-700 transition">Sign Out</button>
@@ -953,7 +1064,7 @@ export default function Navbar() {
             )}
           </div>
 
-          <button onClick={() => setIsOpen(!isOpen)} className="md:hidden text-gray-600">
+          <button onClick={() => setIsOpen(!isOpen)} className="md:hidden text-gray-600 text-2xl">
             {isOpen ? "✕" : "☰"}
           </button>
         </div>
@@ -963,7 +1074,7 @@ export default function Navbar() {
         <div className="md:hidden bg-white border-b border-gray-100 px-4 pt-2 pb-4 space-y-1 shadow-lg">
           <Link href="/" className={getMobileLinkStyle('/')}>Home</Link>
           <Link href="/courses" className={getMobileLinkStyle('/courses')}>Courses</Link>
-          {session && (
+          {!isPending && session && (
             <>
               <Link href="/dashboard" className={getMobileLinkStyle('/dashboard')}>Dashboard</Link>
               <Link href="/item/add" className={getMobileLinkStyle('/item/add')}>Add New Skill</Link>
