@@ -4,7 +4,7 @@ import type { NextRequest } from 'next/server';
 // ১. যে পেজগুলো লগইন ছাড়া একদম ভিজিট করা যাবে না (Protected Routes)
 const protectedRoutes = [
   '/manage', 
-  '/item/add'
+  // '/item/add'
 ];
 
 // ২. যে পেজগুলো লগইন করা থাকলে আর শো করবে না (Auth Routes)
