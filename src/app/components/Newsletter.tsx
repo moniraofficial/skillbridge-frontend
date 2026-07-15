@@ -79,7 +79,7 @@ export default function Newsletter() {
 
     try {
       // ব্যাকএন্ড এপিআই-তে ডাটা পাঠানো
-      const response = await fetch('process.env.NEXT_PUBLIC_API_URL/api/subscribe', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/subscribe`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
