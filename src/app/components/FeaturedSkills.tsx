@@ -351,7 +351,7 @@ export default function FeaturedSkills() {
   useEffect(() => {
     const fetchSkills = async () => {
       try {
-        const res = await fetch('process.env.NEXT_PUBLIC_API_URL/api/skills');
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/skills`);
         
         if (!res.ok) {
           throw new Error(`Failed to fetch from backend status: ${res.status}`);
