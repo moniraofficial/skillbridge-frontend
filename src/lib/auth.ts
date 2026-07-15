@@ -51,15 +51,7 @@ const client = new MongoClient(process.env.MONGODB_URI);
 export const db = client.db("skillbridge");
 
 export const auth = betterAuth({
-  // মঙ্গোডিবির কালেকশনগুলোকে সরাসরি ম্যাপ করে দেওয়া হলো যাতে Internal Server Error না আসে
-  database: mongodbAdapter(db, {
-    collections: {
-      user: "users",
-      session: "sessions",
-      account: "accounts",
-      verification: "verifications",
-    },
-  }),
+  database: mongodbAdapter(db),
   emailAndPassword: {
     enabled: true
   },
