@@ -70,7 +70,7 @@ export default function CourseDetailsPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50/50">
+      <div className="min-h-screen flex items-center justify-center bg-white">
         <div className="text-slate-500 font-semibold animate-pulse">Loading Premium Layout...</div>
       </div>
     );
@@ -78,7 +78,7 @@ export default function CourseDetailsPage() {
 
   if (!course) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center space-y-4 bg-slate-50/50">
+      <div className="min-h-screen flex flex-col items-center justify-center space-y-4 bg-white">
         <p className="text-slate-600 font-medium text-lg">Course not found!</p>
         <button onClick={() => router.back()} className="text-blue-600 flex items-center gap-2 font-semibold">
           <HiOutlineArrowLeft className="w-4 h-4" /> Go Back
