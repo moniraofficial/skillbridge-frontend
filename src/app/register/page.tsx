@@ -543,20 +543,92 @@
 //   );
 // }
 
+// 'use client';
+
+// import React, { useState } from 'react';
+// import Link from 'next/link';
+// import { useRouter } from 'next/navigation';
+// import { toast } from 'react-hot-toast';
+// import { FaEye, FaEyeSlash, FaGraduationCap, FaFacebook } from 'react-icons/fa';
+// import { FcGoogle } from 'react-icons/fc';
+// import { authClient } from '@/lib/auth-client';
+
+// export default function RegisterPage() {
+//   const router = useRouter();
+//   const [loading, setLoading] = useState(false);
+//   const [formData, setFormData] = useState({ fullName: '', email: '', password: '', confirmPassword: '', agree: false });
+
+//   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+//     const { name, value, type, checked } = e.target;
+//     setFormData(prev => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
+//   };
+
+//   const handleSubmit = async (e: React.FormEvent) => {
+//     e.preventDefault();
+//     if (formData.password !== formData.confirmPassword) return toast.error('Passwords do not match!');
+//     if (!formData.agree) return toast.error('You must agree to terms!');
+
+//     setLoading(true);
+//     const { error } = await authClient.signUp.email({
+//       email: formData.email,
+//       password: formData.password,
+//       name: formData.fullName,
+//     });
+
+//     if (error) {
+//       toast.error(error.message);
+//       setLoading(false);
+//     } else {
+//       toast.success('Registration successful!');
+//       router.push('/login');
+//     }
+//   };
+
+//   return (
+//     <div className="min-h-screen bg-white flex flex-col justify-center items-center p-6">
+//       <div className="w-full max-w-md space-y-6">
+//         <div className="text-center">
+//           <div className="flex justify-center items-center gap-2 text-[#1b6ff8] mb-2"><FaGraduationCap className="text-3xl" /> <span className="text-2xl font-bold">SkillBridge</span></div>
+//           <h2 className="text-3xl font-bold">Create your account</h2>
+//         </div>
+
+//         <form onSubmit={handleSubmit} className="space-y-4">
+//           <input name="fullName" placeholder="Full Name" onChange={handleChange} className="w-full border p-3 rounded-lg" required />
+//           <input name="email" type="email" placeholder="Email" onChange={handleChange} className="w-full border p-3 rounded-lg" required />
+//           <input name="password" type="password" placeholder="Password" onChange={handleChange} className="w-full border p-3 rounded-lg" required />
+//           <input name="confirmPassword" type="password" placeholder="Confirm Password" onChange={handleChange} className="w-full border p-3 rounded-lg" required />
+          
+//           <label className="flex items-center gap-2 text-xs"><input type="checkbox" name="agree" onChange={handleChange} /> I agree to Terms & Conditions</label>
+
+//           <button type="submit" disabled={loading} className="w-full bg-[#1b6ff8] text-white py-3 rounded-lg font-bold">{loading ? 'Creating...' : 'Sign Up'}</button>
+//         </form>
+
+//         <p className="text-center text-sm">Already have an account? <Link href="/login" className="text-blue-600 font-bold">Login</Link></p>
+//       </div>
+//     </div>
+//   );
+// }
+
 'use client';
 
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { toast } from 'react-hot-toast';
-import { FaEye, FaEyeSlash, FaGraduationCap, FaFacebook } from 'react-icons/fa';
+import { FaGraduationCap, FaFacebook } from 'react-icons/fa';
 import { FcGoogle } from 'react-icons/fc';
 import { authClient } from '@/lib/auth-client';
 
 export default function RegisterPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState({ fullName: '', email: '', password: '', confirmPassword: '', agree: false });
+  const [formData, setFormData] = useState({ 
+    fullName: '', 
+    email: '', 
+    password: '', 
+    confirmPassword: '', 
+    agree: false 
+  });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
@@ -569,6 +641,7 @@ export default function RegisterPage() {
     if (!formData.agree) return toast.error('You must agree to terms!');
 
     setLoading(true);
+    
     const { error } = await authClient.signUp.email({
       email: formData.email,
       password: formData.password,
@@ -576,7 +649,7 @@ export default function RegisterPage() {
     });
 
     if (error) {
-      toast.error(error.message);
+      toast.error((error as any)?.message || 'Something went wrong!');
       setLoading(false);
     } else {
       toast.success('Registration successful!');
@@ -584,11 +657,28 @@ export default function RegisterPage() {
     }
   };
 
+  // সোশ্যাল সাইন-আপ হ্যান্ডলার
+  const handleSocialRegister = async (provider: 'google' | 'facebook') => {
+    try {
+      setLoading(true);
+      await authClient.signIn.social({
+        provider: provider,
+        callbackURL: '/',
+      });
+    } catch (err) {
+      toast.error('Social login failed');
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white flex flex-col justify-center items-center p-6">
       <div className="w-full max-w-md space-y-6">
         <div className="text-center">
-          <div className="flex justify-center items-center gap-2 text-[#1b6ff8] mb-2"><FaGraduationCap className="text-3xl" /> <span className="text-2xl font-bold">SkillBridge</span></div>
+          <div className="flex justify-center items-center gap-2 text-[#1b6ff8] mb-2">
+            <FaGraduationCap className="text-3xl" /> 
+            <span className="text-2xl font-bold">SkillBridge</span>
+          </div>
           <h2 className="text-3xl font-bold">Create your account</h2>
         </div>
 
@@ -598,12 +688,51 @@ export default function RegisterPage() {
           <input name="password" type="password" placeholder="Password" onChange={handleChange} className="w-full border p-3 rounded-lg" required />
           <input name="confirmPassword" type="password" placeholder="Confirm Password" onChange={handleChange} className="w-full border p-3 rounded-lg" required />
           
-          <label className="flex items-center gap-2 text-xs"><input type="checkbox" name="agree" onChange={handleChange} /> I agree to Terms & Conditions</label>
+          <label className="flex items-center gap-2 text-xs">
+            <input type="checkbox" name="agree" onChange={handleChange} className="w-4 h-4" /> 
+            I agree to Terms & Conditions
+          </label>
 
-          <button type="submit" disabled={loading} className="w-full bg-[#1b6ff8] text-white py-3 rounded-lg font-bold">{loading ? 'Creating...' : 'Sign Up'}</button>
+          <button type="submit" disabled={loading} className="w-full bg-[#1b6ff8] text-white py-3 rounded-lg font-bold">
+            {loading ? 'Creating...' : 'Create Account'}
+          </button>
         </form>
 
-        <p className="text-center text-sm">Already have an account? <Link href="/login" className="text-blue-600 font-bold">Login</Link></p>
+        <div className="relative text-center my-4">
+          <div className="absolute inset-0 flex items-center">
+            <div className="w-full border-t border-gray-100"></div>
+          </div>
+          <span className="relative px-2 bg-white text-xs text-gray-400 font-medium">
+            or continue with
+          </span>
+        </div>
+
+        <div className="flex justify-center items-center gap-4">
+          <button
+            type="button"
+            onClick={() => handleSocialRegister('google')}
+            className="w-11 h-11 flex items-center justify-center border border-gray-200 rounded-full hover:bg-gray-50 transition shadow-sm"
+          >
+            <FcGoogle className="text-xl" />
+          </button>
+
+          <button
+            type="button"
+            onClick={() => handleSocialRegister('facebook')}
+            className="w-11 h-11 flex items-center justify-center border border-gray-200 rounded-full hover:bg-gray-50 transition shadow-sm"
+          >
+            <FaFacebook className="text-xl text-[#1877F2]" />
+          </button>
+        </div>
+
+        <div className="text-center">
+          <p className="text-xs text-gray-500 font-medium">
+            Already have an account?{' '}
+            <Link href="/login" className="font-bold text-blue-600 hover:text-blue-700 transition">
+              Login
+            </Link>
+          </p>
+        </div>
       </div>
     </div>
   );
