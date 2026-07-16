@@ -34,7 +34,7 @@ export default function ManageItemsPage() {
   // এক্সপ্রেস ব্যাকএন্ড (localhost:5000) থেকে ডাটা নিয়ে আসা
   useEffect(() => {
     if (session) {
-      fetch('process.env.NEXT_PUBLIC_API_URL/api/skills') // এক্সপ্রেসের সঠিক এপিআই লিংক
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/skills`) // এক্সপ্রেসের সঠিক এপিআই লিংক
         .then((res) => res.json())
         .then((data) => {
           setItems(data || []);
@@ -55,7 +55,7 @@ export default function ManageItemsPage() {
 
     setDeletingId(id);
     try {
-      const response = await fetch(`process.env.NEXT_PUBLIC_API_URL/api/skills/${id}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/skills/${id}`, {
         method: 'DELETE',
       });
 
