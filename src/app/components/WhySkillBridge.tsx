@@ -32,7 +32,7 @@ export default function WhySkillBridge() {
   return (
     <section className="py-16 px-4 max-w-7xl mx-auto bg-white">
       {/* মকআপের মতো হেডিং স্টাইল */}
-      <div className="mb-12">
+      <div className="text-center mb-12">
         <h2 className="text-xl md:text-2xl font-bold text-slate-900 tracking-wide uppercase">
          WHY SKILLBRIDGE?
         </h2>
